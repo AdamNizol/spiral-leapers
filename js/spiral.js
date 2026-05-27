@@ -1,4 +1,4 @@
-export function normalizeOddSize(value, min = 11, max = 1001) {
+export function normalizeOddSize(value, min = 11, max = 10001) {
   let size = Number.isFinite(Number(value)) ? Math.round(Number(value)) : 151;
   size = Math.max(min, Math.min(max, size));
   if (size % 2 === 0) size += size === max ? -1 : 1;
