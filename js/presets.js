@@ -38,14 +38,14 @@ const team = (id, name, color, sequence, attacks) => ({ id, name, color, sequenc
 export const presets = [
   {
     id: 'original-knights',
-    name: 'Original: Red & Black Knights',
+    name: 'Original: Red & White Knights',
     config: () => ({
       version: 1,
       board: board(),
       pieces: pieces(),
       teams: [
-        team('red', 'Red', '#ef3652', ['knight'], ['black']),
-        team('black', 'Black', '#dde4f0', ['knight'], ['red'])
+        team('red', 'Red', '#ef3652', ['knight'], ['white']),
+        team('white', 'White', '#dde4f0', ['knight'], ['red'])
       ]
     })
   },
