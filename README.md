@@ -1,5 +1,7 @@
 # Spiral Leapers
 
+[Demo](https://adamnizol.github.io/spiral-leapers/)
+
 An interactive web playground for generating painted grid patterns from competing custom chess-like pieces placed along an outward spiral.
 
 Inspired by Numberphile's videos:
