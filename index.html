@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spiral Leapers</title>
+  <meta name="description" content="Paint spiral-grid patterns with teams of custom finite-offset pieces.">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <h1>Spiral Leapers</h1>
+      <p class="subtitle">Custom pieces. Competing teams. Painted spiral patterns.</p>
+    </div>
+    <div class="header-actions">
+      <label class="select-label">Preset
+        <select id="preset-select" aria-label="Choose a preset"></select>
+      </label>
+      <button id="load-preset" class="button primary">Load preset</button>
+      <button id="save-json" class="button">Save JSON</button>
+      <button id="load-json" class="button">Load JSON</button>
+      <input id="json-file" type="file" accept="application/json,.json" hidden>
+      <button id="share-link" class="button">Copy share link</button>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <aside class="sidebar" aria-label="Configuration">
+      <section class="panel simulation-panel">
+        <div class="panel-title-row">
+          <h2>Board</h2>
+          <button id="new-config" class="text-button">Reset preset</button>
+        </div>
+        <div class="field-grid">
+          <label>Grid size
+            <input id="board-size" type="number" min="11" max="1001" step="2" value="151">
+          </label>
+          <label>Background
+            <input id="background-color" type="color" value="#10141c">
+          </label>
+          <label>Export scale
+            <select id="export-scale">
+              <option value="1">1 px / cell</option>
+              <option value="2">2 px / cell</option>
+              <option value="4" selected>4 px / cell</option>
+              <option value="8">8 px / cell</option>
+            </select>
+          </label>
+          <label>Playback speed
+            <select id="play-speed">
+              <option value="1">1 placement / frame</option>
+              <option value="5">5 placements / frame</option>
+              <option value="25" selected>25 placements / frame</option>
+              <option value="100">100 placements / frame</option>
+              <option value="500">500 placements / frame</option>
+              <option value="2000">2,000 placements / frame</option>
+            </select>
+          </label>
+        </div>
+        <div class="button-row wrap">
+          <button id="render-final" class="button primary">Render final</button>
+          <button id="play-pause" class="button">Play</button>
+          <button id="step-placement" class="button">Step</button>
+          <button id="step-round" class="button">Round</button>
+          <button id="reset-sim" class="button">Clear</button>
+          <button id="export-png" class="button">Export PNG</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-title-row">
+          <h2>Pieces</h2>
+          <button id="add-piece" class="button small primary">New piece</button>
+        </div>
+        <p class="hint">Click a piece to inspect or edit its relative attack cells.</p>
+        <div id="piece-list" class="piece-list"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-title-row">
+          <h2>Teams</h2>
+          <button id="add-team" class="button small primary">Add team</button>
+        </div>
+        <p class="hint">Teams act from top to bottom. Each team's attack list is directed.</p>
+        <div id="team-list" class="team-list"></div>
+      </section>
+    </aside>
+
+    <section class="visualizer" aria-label="Pattern preview">
+      <div class="canvas-toolbar">
+        <div id="status" class="status">Ready.</div>
+        <div id="counts" class="counts"></div>
+      </div>
+      <div class="canvas-frame" id="canvas-frame">
+        <canvas id="pattern-canvas" width="151" height="151" aria-label="Generated pattern"></canvas>
+      </div>
+      <div class="inspect" id="inspect">Hover over the image to inspect a cell.</div>
+    </section>
+  </main>
+
+  <dialog id="piece-dialog" class="piece-dialog">
+    <form method="dialog" id="piece-form">
+      <div class="dialog-header">
+        <h2 id="piece-dialog-title">Edit piece</h2>
+        <button type="button" id="close-piece-dialog" class="icon-button" aria-label="Close">×</button>
+      </div>
+      <div class="piece-form-fields">
+        <label>Piece name
+          <input id="piece-name" type="text" maxlength="40" required>
+        </label>
+        <label>Editor grid
+          <select id="piece-grid-size">
+            <option value="3">3 × 3</option>
+            <option value="5" selected>5 × 5</option>
+            <option value="7">7 × 7</option>
+            <option value="9">9 × 9</option>
+            <option value="11">11 × 11</option>
+            <option value="13">13 × 13</option>
+            <option value="15">15 × 15</option>
+            <option value="17">17 × 17</option>
+            <option value="21">21 × 21</option>
+            <option value="25">25 × 25</option>
+            <option value="31">31 × 31</option>
+            <option value="41">41 × 41</option>
+            <option value="49">49 × 49</option>
+          </select>
+        </label>
+      </div>
+      <p class="hint">The center is the placed piece. Highlighted cells are attacked offsets.</p>
+      <div id="piece-editor-grid" class="piece-editor-grid" aria-label="Piece movement editor"></div>
+      <div id="offset-summary" class="offset-summary"></div>
+      <div class="dialog-actions">
+        <button type="button" id="duplicate-piece" class="button">Duplicate</button>
+        <button type="button" id="delete-piece" class="button danger">Delete</button>
+        <span class="spacer"></span>
+        <button type="button" id="cancel-piece" class="button">Cancel</button>
+        <button type="submit" class="button primary">Save piece</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
