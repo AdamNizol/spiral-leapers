@@ -98,6 +98,7 @@ function changeBoard() {
   config.board.backgroundColor = $('background-color').value;
   config = sanitizeConfig(config);
   bindBoardFields();
+  renderTeams();
   queueFinalRender();
 }
 
